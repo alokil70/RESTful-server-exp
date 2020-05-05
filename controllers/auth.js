@@ -73,19 +73,21 @@ module.exports.logout = function(req, res) {
 }
 
 module.exports.findUser = async function(req, res) {
-    //db.User.findOne({
-    let response = req.headers.authorization
-    res.status(200).json({
-        user: {
-            token: response
-        }
+
+    const token = (req.headers.authorization).toString().substr(14)
+    const decodeToken = jwt.decode(token)
+
+    const findUser = await db.User.findOne({
+    where: { email: decodeToken.email }
     })
-    //where: {ProductId: req.body.category},
-    //include: [db.Category]
-    // }).then(item => {
-    //     res.json(item)
-    //     res.status(200)
-    // }).catch(err => {
-    //     errorHandler(err, res)
-    // })
+
+    if (findUser != null) {
+        res.status(200).json({
+            user: {
+                name: findUser.name,
+                email: findUser.email,
+                token: token
+            }
+        })
+    }
 }
