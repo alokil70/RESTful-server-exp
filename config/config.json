@@ -1,0 +1,26 @@
+{
+    "development": {
+        "username": "postgres",
+        "password": "1111",
+        "database": "resttest",
+        "host": "192.168.0.10",
+        "dialect": "postgres",
+        "operatorsAliases": 1
+    },
+    "test": {
+        "username": "postgres",
+        "password": "1234",
+        "database": "resttest",
+        "host": "127.0.0.1",
+        "dialect": "postgres",
+        "operatorsAliases": 1
+    },
+    "production": {
+        "username": "root",
+        "password": null,
+        "database": "database_production",
+        "host": "127.0.0.1",
+        "dialect": "mysql",
+        "operatorsAliases": false
+    }
+}
