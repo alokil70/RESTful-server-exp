@@ -2,6 +2,9 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const passport = require('passport')
 const db = require('./models')
+const path = require('path')
+const fs = require('fs')
+
 require('dotenv').config()
 const PORT = process.env.SERVER_PORT || 9009
 
@@ -15,6 +18,10 @@ app.use('/uploads', express.static('uploads'))
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 app.use(require('cors')())
+if (path.dirname('uploads')) {
+    fs.mkdir(path.join(__dirname, 'uploads'), err => {
+    })
+}
 
 const authRoutes = require('./routes/auth')
 //const userRoute = require('./routes/profile')
