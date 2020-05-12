@@ -21,7 +21,7 @@ module.exports.login = async function(req, res) {
                     id: candidate.id
                 },
                 process.env.JWT,
-                { expiresIn: 60 * 60 }
+                { expiresIn: 60 }
             )
             res.status(200).json({
                 token: `Bearer ${token}`
@@ -74,8 +74,14 @@ module.exports.logout = function(req, res) {
 
 module.exports.findUser = async function(req, res) {
 
-    const token = (req.headers.authorization).toString().substr(14)
+    // const token = (req.headers.authorization).toString().substr(14)
+    const token = (req.headers.authorization).split(' ')[2]
     const decodeToken = jwt.decode(token)
+
+    console.log('----------------------------------')
+    console.log(token)
+    console.log(decodeToken)
+    console.log('-----------------------------------')
 
     const findUser = await db.User.findOne({
     where: { email: decodeToken.email }
