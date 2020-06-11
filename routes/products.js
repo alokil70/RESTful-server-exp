@@ -6,7 +6,7 @@ const router = express.Router()
 
 router.get(
     '/',
-    //passport.authenticate('jwt', {session: false}),
+    passport.authenticate('jwt', {session: false}),
     controller.getAll)
 
 router.post('/',

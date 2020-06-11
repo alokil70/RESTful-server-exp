@@ -21,16 +21,3 @@ module.exports = (passport) => {
         })
     )
 }
-/*
-module.exports = passport => {
-    passport.use(
-        new JwtStrategy(options, function (payload, done) {
-            const user = User.findOne({ where: {id: payload.id} })
-            if (user) {
-                return done(null, user);
-            } else {
-                return done(null, false);
-            }
-        })
-    )
-}*/

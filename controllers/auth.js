@@ -74,7 +74,8 @@ module.exports.logout = function(req, res) {
 
 module.exports.findUser = async function(req, res) {
 
-    const token = (req.headers.authorization).toString().substr(14)
+    // const token = (req.headers.authorization).toString().substr(14)
+    const token = (req.headers.authorization).split(' ').slice(2).join()
     const decodeToken = jwt.decode(token)
 
     const findUser = await db.User.findOne({
