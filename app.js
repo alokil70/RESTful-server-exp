@@ -18,6 +18,7 @@ app.use('/uploads', express.static('uploads'))
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 app.use(require('cors')())
+
 if (path.dirname('uploads')) {
     fs.mkdir(path.join(__dirname, 'uploads'), err => {
     })
