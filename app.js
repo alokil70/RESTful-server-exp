@@ -5,6 +5,8 @@ const db = require('./models')
 const path = require('path')
 const fs = require('fs')
 
+const user = require('./middleware/license')
+
 require('dotenv').config()
 const PORT = process.env.SERVER_PORT || 9009
 
@@ -25,22 +27,21 @@ if (path.dirname('uploads')) {
 }
 
 const authRoutes = require('./routes/auth')
-//const userRoute = require('./routes/profile')
 const analyticsRoutes = require('./routes/analytics')
 const categoryRoutes = require('./routes/category')
 const orderRoutes = require('./routes/order')
-//const positionRoutes = require('./routes/position')
 const productsRoutes = require('./routes/products')
 
 app.use('/api/analytics', analyticsRoutes)
 app.use('/api/category', categoryRoutes)
 app.use('/api/order', orderRoutes)
-//app.use('/api/position', positionRoutes)
 app.use('/api/products', productsRoutes)
 app.use('/api/auth', authRoutes)
-//app.use('/api/auth/user', userRoute)
 
-//module.exports = app
+user.then(res => {
+    console.log(res)
+})
+
 db.sequelize.sync().then(() => {
     app.listen(PORT, () => console.log('Started on port: ' + PORT))
 })
