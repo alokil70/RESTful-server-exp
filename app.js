@@ -1,72 +1,65 @@
-const express = require('express')
-const bodyParser = require('body-parser')
-const passport = require('passport')
-const db = require('./models')
-const path = require('path')
-const fs = require('fs')
+const express = require("express")
+const bodyParser = require("body-parser")
+const passport = require("passport")
+const db = require("./models")
+const path = require("path")
+const fs = require("fs")
 
-const serverAuth = require('./middleware/serv-auth')
-//const {userInfo} = require('./middleware/serv-auth')
+const serverAuth = require("./middleware/serv-auth")
 
-require('dotenv').config()
+require("dotenv").config()
 const PORT = process.env.SERVER_PORT || 9009
 
 const app = express()
 
 app.use(passport.initialize())
-require('./middleware/passport')(passport)
+require("./middleware/passport")(passport)
 
-app.use(require('morgan')('dev'))
-app.use('/uploads', express.static('uploads'))
-app.use(bodyParser.urlencoded({extended: true}))
+app.use(require("morgan")("dev"))
+app.use("/uploads", express.static("uploads"))
+app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
-app.use(require('cors')())
+app.use(require("cors")())
 
-if (path.dirname('uploads')) {
-    fs.mkdir(path.join(__dirname, 'uploads'), err => {
+if (path.dirname("uploads")) {
+    fs.mkdir(path.join(__dirname, "uploads"), err => {
     })
 }
 
-const authRoutes = require('./routes/auth')
-const analyticsRoutes = require('./routes/analytics')
-const categoryRoutes = require('./routes/category')
-const orderRoutes = require('./routes/order')
-const productsRoutes = require('./routes/products')
+const authRoutes = require("./routes/auth")
+const analyticsRoutes = require("./routes/analytics")
+const categoryRoutes = require("./routes/category")
+const orderRoutes = require("./routes/order")
+const productsRoutes = require("./routes/products")
 
-app.use('/api/analytics', analyticsRoutes)
-app.use('/api/category', categoryRoutes)
-app.use('/api/order', orderRoutes)
-app.use('/api/products', productsRoutes)
-app.use('/api/auth', authRoutes)
-
+app.use("/api/auth", authRoutes)
+app.use("/api/analytics", analyticsRoutes)
+app.use("/api/category", categoryRoutes)
+app.use("/api/order", orderRoutes)
+app.use("/api/products", productsRoutes)
 
 let token = null
 let user = {}
-let d = "2020-6-13 19:07:32"
 
-console.log(new Date(d) > new Date())
-
-console.log(new Date().toLocaleString())
-
-
-token = serverAuth.fetchUser().then(() => {
-
-})
-user = serverAuth.fetchProfile(token).then(() => {
-
-})
-
-console.log(token)
-console.log(user)
-
-if (token) {
-    db.sequelize.sync().then(() => {
-        app.listen(PORT, () => console.log('Started on port: ' + PORT))
-    })
-} else {
-    console.log('License not found...')
+async function fetchL() {
+    token = await serverAuth.fetchUser()
+    user = await serverAuth.fetchProfile(token)
 }
 
-//console.log(err.response.data.message)
+function srv() {
+    if (token) {
+        if (new Date(user.expire) > new Date()) {
+            db.sequelize.sync().then(() => {
+                app.listen(PORT, () => console.log("Started on port: " + PORT));
+            })
+        } else {
+            console.log("License expired...")
+        }
+    } else {
+        console.log("License not found...")
+    }
+}
 
-
+fetchL().then(() => srv()).catch(() => {
+    console.log("eeeerrrrr")
+})

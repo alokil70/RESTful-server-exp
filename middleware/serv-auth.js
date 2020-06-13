@@ -1,8 +1,7 @@
 const axios = require('axios')
 require('dotenv').config()
 
-const URL = 'http://localhost:9099/api/auth-server'
-const serverAuth = {}
+const URL = process.env.FETCH_URL
 
 module.exports.fetchUser = () => {
     return axios({
@@ -12,7 +11,7 @@ module.exports.fetchUser = () => {
             "email": process.env.L_USER,
             "password": process.env.L_PASSWORD
         }
-    })
+    }).then(res => res.data.token)
 }
 
 module.exports.fetchProfile = (token) => {
@@ -23,14 +22,5 @@ module.exports.fetchProfile = (token) => {
             "Authorization": token,
             "Content-Type": "multipart/form-data"
         }
-    }).then(res => {
-        res.data.user
-    })
+    }).then(res => res.data.user)
 }
-
-/*
-serverAuth.user = fetchUser
-serverAuth.profile = fetchProfile
-
-module.exports = serverAuth
-*/
