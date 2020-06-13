@@ -48,26 +48,15 @@ console.log(new Date(d) > new Date())
 
 console.log(new Date().toLocaleString())
 
-function us() {
-    serverAuth.fetchProfile(token).then(res => {
-        user = res.data.user
-    })
-}
 
-async function serv() {
-    await serverAuth.fetchUser().then(res => {
-        token = res.data.token
-    })
+token = serverAuth.fetchUser().then(() => {
 
+})
+user = serverAuth.fetchProfile(token).then(() => {
 
-    await serverAuth.fetchProfile(token).then(res => {
-        user = res.data.user
-    })
+})
 
-}
-serv()
-
-
+console.log(token)
 console.log(user)
 
 if (token) {

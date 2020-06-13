@@ -15,16 +15,17 @@ module.exports.fetchUser = () => {
     })
 }
 
-module.exports.fetchProfile = async (token) => {
-    const asa = await axios({
+module.exports.fetchProfile = (token) => {
+    return axios({
         method: 'get',
         url: URL + '/user',
         headers: {
             "Authorization": token,
             "Content-Type": "multipart/form-data"
         }
+    }).then(res => {
+        res.data.user
     })
-    return asa
 }
 
 /*
