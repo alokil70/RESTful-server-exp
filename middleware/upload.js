@@ -8,7 +8,7 @@ const storage = multer.diskStorage({
     filename(req, file, cb) {
         const date = moment().format('DDMMYYYY-HHmmss')
         cb(null, `${date}-${file.originalname}`)
-    }
+    },
 })
 
 const fileFilter = (req, file, cb) => {
@@ -20,11 +20,11 @@ const fileFilter = (req, file, cb) => {
 }
 
 const limits = {
-    fileSize: 1024 * 1024 * 5
+    fileSize: 1024 * 1024 * 5,
 }
 
 module.exports = multer({
     storage,
     fileFilter,
-    limits
+    limits,
 })

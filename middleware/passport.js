@@ -5,12 +5,12 @@ require('dotenv').config()
 
 const options = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-    secretOrKey: process.env.JWT
+    secretOrKey: process.env.JWT,
 }
 
 module.exports = (passport) => {
     passport.use(
-        new JwtStrategy(options, function(payload, done) {
+        new JwtStrategy(options, function (payload, done) {
             db.User.findOne({ where: { id: payload.id } })
                 .then((user) => {
                     return done(null, user)

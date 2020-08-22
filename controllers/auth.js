@@ -4,48 +4,48 @@ const db = require('../models')
 const errorHandler = require('../utils/errorHandler')
 require('dotenv').config()
 
-module.exports.login = async function(req, res) {
+module.exports.login = async function (req, res) {
     const candidate = await db.User.findOne({
-        where: { email: req.body.email }
+        where: { email: req.body.email },
     })
 
     if (candidate != null) {
         const passwordResult = bcrypt.compareSync(
             req.body.password,
-            candidate.password
+            candidate.password,
         )
         if (passwordResult) {
             const token = jwt.sign(
                 {
                     email: candidate.email,
-                    id: candidate.id
+                    id: candidate.id,
                 },
                 process.env.JWT,
-                { expiresIn: 60 * 60 }
+                { expiresIn: 60 * 60 },
             )
             res.status(200).json({
-                token: `Bearer ${token}`
+                token: `Bearer ${token}`,
             })
         } else {
             res.status(401).json({
-                message: 'Не верный пароль'
+                message: 'Не верный пароль',
             })
         }
     } else {
         res.status(404).json({
-            message: 'Пользователь не найден'
+            message: 'Пользователь не найден',
         })
     }
 }
 
-module.exports.register = async function(req, res) {
+module.exports.register = async function (req, res) {
     const candidate = await db.User.findOne({
-        where: { email: req.body.email }
+        where: { email: req.body.email },
     })
 
     if (candidate != null) {
         res.status(409).json({
-            message: 'есть такой email'
+            message: 'есть такой email',
         })
     } else {
         const salt = bcrypt.genSaltSync(10)
@@ -53,12 +53,12 @@ module.exports.register = async function(req, res) {
         db.User.create({
             name: req.body.name,
             email: req.body.email,
-            password: bcrypt.hashSync(password, salt)
+            password: bcrypt.hashSync(password, salt),
         })
             .then(
                 res.status(201).json({
-                    message: 'user created'
-                })
+                    message: 'user created',
+                }),
             )
             .catch((err) => {
                 errorHandler(err, res)
@@ -66,19 +66,18 @@ module.exports.register = async function(req, res) {
     }
 }
 
-module.exports.logout = function(req, res) {
+module.exports.logout = function (req, res) {
     res.status(200).json({
-        message: 'logout'
+        message: 'logout',
     })
 }
 
-module.exports.findUser = async function(req, res) {
-
-    const token = (req.headers.authorization).split(' ')[2]
+module.exports.findUser = async function (req, res) {
+    const token = req.headers.authorization.split(' ')[2]
     const decodeToken = jwt.decode(token)
 
     const findUser = await db.User.findOne({
-    where: { email: decodeToken.email }
+        where: { email: decodeToken.email },
     })
 
     if (findUser != null) {
@@ -86,29 +85,28 @@ module.exports.findUser = async function(req, res) {
             user: {
                 name: findUser.name,
                 email: findUser.email,
-                token: token
-            }
+                token: token,
+            },
         })
     }
 }
 
-module.exports.fetchServUser = async function(req, res) {
-
-    const token = (req.headers.authorization).split(' ')[2]
+module.exports.fetchServUser = async function (req, res) {
+    const token = req.headers.authorization.split(' ')[2]
     const decodeToken = jwt.decode(token)
 
     res.status(200).json('OK')
-/*    const findUser = await db.User.findOne({
-        where: { email: decodeToken.email }
-    })
-
-    if (findUser != null) {
-        res.status(200).json({
-            user: {
-                name: findUser.name,
-                email: findUser.email,
-                token: token
-            }
+    /*    const findUser = await db.User.findOne({
+            where: { email: decodeToken.email }
         })
-    }*/
+
+        if (findUser != null) {
+            res.status(200).json({
+                user: {
+                    name: findUser.name,
+                    email: findUser.email,
+                    token: token
+                }
+            })
+        }*/
 }
