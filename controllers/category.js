@@ -29,6 +29,7 @@ module.exports.remove = function(req, res) {
 }
 
 module.exports.create = function(req, res) {
+    console.log(req.body)
     db.Category.create({
         categoryName: req.body.categoryName,
         description: req.body.description,

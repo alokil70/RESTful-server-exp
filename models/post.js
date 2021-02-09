@@ -1,7 +1,6 @@
-'use strict'
+"use strict";
 module.exports = (sequelize, DataTypes) => {
-    const Post = sequelize.define(
-        'Post',
+    const Post = sequelize.define("Post",
         {
             text: {
                 type: DataTypes.STRING,
@@ -9,13 +8,13 @@ module.exports = (sequelize, DataTypes) => {
             }
         },
         {}
-    )
+    );
     Post.associate = function(models) {
         Post.belongsTo(models.User, {
             foreignKey: {
                 allowNull: false
             }
-        })
-    }
-    return Post
-}
+        });
+    };
+    return Post;
+};
