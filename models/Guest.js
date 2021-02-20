@@ -1,6 +1,6 @@
 "use strict";
 module.exports = (sequelize, DataTypes) => {
-    const User = sequelize.define("User",
+    const Guest = sequelize.define("Guest",
         {
             name: {
                 type: DataTypes.STRING,
@@ -24,16 +24,16 @@ module.exports = (sequelize, DataTypes) => {
         },
         {}
     );
-    User.associate = function(models) {
-        User.hasMany(models.Post, {
+    Guest.associate = function(models) {
+        Guest.hasMany(models.Post, {
             onDelete: "cascade"
         });
-        User.hasOne(models.Profile, {
+        Guest.hasOne(models.Profile, {
             onDelete: "cascade"
         });
-        User.hasOne(models.Role, {
+        Guest.hasOne(models.Role, {
             onDelete: "cascade"
         });
     };
-    return User;
+    return Guest;
 };

@@ -30,6 +30,7 @@ const userRoutes = require('./routes/user')
 const analyticsRoutes = require('./routes/analytics')
 const categoryRoutes = require('./routes/category')
 const orderRoutes = require('./routes/order')
+const cashShiftRoutes = require('./routes/cashShift')
 const productsRoutes = require('./routes/products')
 
 app.use('/api/auth', authRoutes)
@@ -37,6 +38,7 @@ app.use('/api/users', userRoutes)
 app.use('/api/analytics', analyticsRoutes)
 app.use('/api/category', categoryRoutes)
 app.use('/api/order', orderRoutes)
+app.use('/api/cashShift', cashShiftRoutes)
 app.use('/api/products', productsRoutes)
 
 let token = null
@@ -51,7 +53,9 @@ function srv() {
     if (token) {
         if (new Date(user.expire) > new Date()) {
             db.sequelize
-                .sync()
+                .sync({
+                    force: false,
+                })
                 .then(() => {
                     app.listen(PORT, () =>
                         console.log('Started on port: ' + PORT),

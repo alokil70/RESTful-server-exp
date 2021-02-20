@@ -9,7 +9,7 @@ router.get(
     '/',
     cors(),
     passport.authenticate('jwt', { session: false }),
-    controller.getAll
+    controller.getAll,
 )
 
 router.post(
@@ -17,7 +17,7 @@ router.post(
     cors(),
     upload.single('image'),
     passport.authenticate('jwt', { session: false }),
-    controller.create
+    controller.create,
 )
 
 router.post(
@@ -25,7 +25,7 @@ router.post(
     cors(),
     upload.single('image'),
     passport.authenticate('jwt', { session: false }),
-    controller.remove
+    controller.remove,
 )
 
 router.patch('/:id', controller.update)

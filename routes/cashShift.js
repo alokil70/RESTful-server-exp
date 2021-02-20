@@ -1,5 +1,5 @@
 const express = require('express')
-const controller = require('../controllers/order')
+const controller = require('../controllers/cashShift')
 const router = express.Router()
 
 router.get('/', controller.getAll)

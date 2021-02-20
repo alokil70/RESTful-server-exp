@@ -38,7 +38,7 @@ module.exports.login = async function (req, res) {
     }
 }
 
-module.exports.register = async function (req, res) {
+/*module.exports.register = async function (req, res) {
     const candidate = await db.User.findOne({
         where: { email: req.body.email },
     })
@@ -64,7 +64,7 @@ module.exports.register = async function (req, res) {
                 errorHandler(err, res)
             })
     }
-}
+}*/
 
 module.exports.logout = function (req, res) {
     res.status(200).json({
