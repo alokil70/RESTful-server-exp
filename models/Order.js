@@ -7,6 +7,9 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.INTEGER,
                 allowNull: false,
             },
+            positions: {
+                type: DataTypes.JSONB,
+            },
             tableNumber: {
                 type: DataTypes.INTEGER,
             },
@@ -22,6 +25,9 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.STRING,
             },
             contact: {
+                type: DataTypes.STRING,
+            },
+            guest: {
                 type: DataTypes.STRING,
             },
             user: {
@@ -44,7 +50,7 @@ module.exports = (sequelize, DataTypes) => {
         Order.hasMany(models.Product, {
             onDelete: 'cascade',
         })
-        Order.hasOne(models.User, {
+        Order.belongsTo(models.User, {
             onDelete: 'cascade',
         })
     }

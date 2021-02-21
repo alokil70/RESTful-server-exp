@@ -62,8 +62,9 @@ module.exports.remove = function (req, res) {
 
 module.exports.update = function (req, res) {
     const id = req.params.id
+    console.log(req.body)
     db.CashShift.update(
-        { isOpen: false },
+        { isOpen: false, manager: req.body.manager, total: req.body.total },
         {
             where: { id: id },
         },

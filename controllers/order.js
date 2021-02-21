@@ -2,12 +2,12 @@ const db = require('../models')
 const errorHandler = require('../utils/errorHandler')
 
 module.exports.getAll = function (req, res) {
-    db.Product.findAll({
+    db.Order.findAll({
         //where: {ProductId: req.body.category},
-        include: [db.Category],
+        //include: [db.Category],
     })
-        .then((products) => {
-            res.json(products)
+        .then((items) => {
+            res.json(items)
             res.status(200)
         })
         .catch((err) => {
@@ -15,11 +15,17 @@ module.exports.getAll = function (req, res) {
         })
 }
 
-module.exports.create = function (req, res) {
+module.exports.create = async function (req, res) {
     console.log(req.body)
+    const candidate = await db.User.findOne({
+        where: { email: req.body.user },
+    })
     db.Order.create({
         number: req.body.number,
-        CashShiftId: req.body.cashShiftId,
+        user: req.body.user,
+        positions: req.body.cart,
+        CashShiftId: req.body.CashShiftId,
+        UserId: candidate.id,
     })
         .then((items) => {
             res.json(items)
