@@ -47,4 +47,26 @@ module.exports.create = function (req, res) {
         })
 }
 
-module.exports.update = function (req, res) {}
+module.exports.update = function (req, res) {
+    const id = req.params.id
+    console.log(req.body)
+    db.Product.update(
+        {
+            productName: req.body.productName,
+            description: req.body.description,
+            price: req.body.price,
+            CategoryId: req.body.categoryId,
+            imageName: req.file ? req.file.filename : '',
+        },
+        {
+            where: { id: id },
+        },
+    )
+        .then((item) => {
+            res.json(item)
+            res.status(200)
+        })
+        .catch((err) => {
+            errorHandler(err, res)
+        })
+}
