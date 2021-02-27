@@ -16,6 +16,7 @@ module.exports.getAll = function (req, res) {
 }
 
 module.exports.remove = function (req, res) {
+    console.log(req.body)
     const id = req.params.id
     db.Product.destroy({
         where: { id: id },

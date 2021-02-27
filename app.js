@@ -50,7 +50,7 @@ async function fetchL() {
 }
 
 function srv() {
-    if (token) {
+    if (!token) {
         if (new Date(user.expire) > new Date()) {
             db.sequelize
                 .sync({
@@ -70,8 +70,17 @@ function srv() {
     }
 }
 
-fetchL()
+/*fetchL()
     .then(() => srv())
     .catch(() => {
         console.log('error fetch')
+    })*/
+
+db.sequelize
+    .sync({
+        force: false,
     })
+    .then(() => {
+        app.listen(PORT, () => console.log('Started on port: ' + PORT))
+    })
+    .catch((e) => console.log('error started exp', e))

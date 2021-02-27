@@ -10,6 +10,9 @@ module.exports = (sequelize, DataTypes) => {
             positions: {
                 type: DataTypes.JSONB,
             },
+            totalCostOrder: {
+                type: DataTypes.INTEGER,
+            },
             tableNumber: {
                 type: DataTypes.INTEGER,
             },

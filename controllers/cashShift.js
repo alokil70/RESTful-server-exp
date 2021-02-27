@@ -35,10 +35,12 @@ module.exports.create = function (req, res) {
             // where: {ProductId: req.body.category},
             // include: [db.Category],
         }).then((items) => {
-            if (items.length === 0) {
+            console.log(items)
+            let number = items.length
+            if (number === 0) {
                 createShift(1)
             } else {
-                createShift(items.length + 1)
+                createShift(number + 1)
             }
             return items.length
         })
@@ -62,7 +64,6 @@ module.exports.remove = function (req, res) {
 
 module.exports.update = function (req, res) {
     const id = req.params.id
-    console.log(req.body)
     db.CashShift.update(
         { isOpen: false, manager: req.body.manager, total: req.body.total },
         {

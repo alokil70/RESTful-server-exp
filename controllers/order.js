@@ -20,8 +20,16 @@ module.exports.create = async function (req, res) {
     const candidate = await db.User.findOne({
         where: { email: req.body.user },
     })
+    const findLastOrderNumber = await db.Order.findAll({
+        where: { CashShiftId: req.body.CashShiftId },
+    })
+    const lastNumber = findLastOrderNumber[findLastOrderNumber.length - 1]
+    let idx = 1
+    if (lastNumber) {
+        idx = lastNumber.number + 1
+    }
     db.Order.create({
-        number: req.body.number,
+        number: idx,
         user: req.body.user,
         positions: req.body.cart,
         CashShiftId: req.body.CashShiftId,
@@ -50,4 +58,20 @@ module.exports.remove = function (req, res) {
         })
 }
 
-module.exports.update = function (req, res) {}
+module.exports.update = function (req, res) {
+    console.log(req.body)
+    db.Order.update(
+        {
+            user: req.body.user,
+            positions: req.body.cart,
+        },
+        { where: { number: req.body.number } },
+    )
+        .then((items) => {
+            res.json(items)
+            res.status(201)
+        })
+        .catch((err) => {
+            errorHandler(err, res)
+        })
+}
