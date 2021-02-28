@@ -64,6 +64,8 @@ module.exports.update = function (req, res) {
         {
             user: req.body.user,
             positions: req.body.cart,
+            isPayed: req.body.isPayed,
+            totalCostOrder: req.body.totalCostOrder,
         },
         { where: { number: req.body.number } },
     )
