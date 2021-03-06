@@ -63,11 +63,11 @@ module.exports.update = function (req, res) {
     db.Order.update(
         {
             user: req.body.user,
-            positions: req.body.cart,
+            positions: req.body.positions,
             isPayed: req.body.isPayed,
             totalCostOrder: req.body.totalCostOrder,
         },
-        { where: { number: req.body.number } },
+        { where: { id: req.params.id } },
     )
         .then((items) => {
             res.json(items)
