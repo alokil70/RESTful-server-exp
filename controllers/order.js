@@ -31,7 +31,6 @@ module.exports.create = async function (req, res) {
     db.Order.create({
         number: idx,
         user: req.body.user,
-        positions: req.body.cart,
         CashShiftId: req.body.CashShiftId,
         UserId: candidate.id,
     })
