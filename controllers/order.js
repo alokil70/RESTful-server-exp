@@ -54,18 +54,18 @@ module.exports.create = async function (req, res) {
     }
 
     async function find() {
-        const a = await findLastOrderNumber()
-        const b = await findLastOrderNumber()
-        console.log('findLastNumber a', a)
-        console.log('findLastNumber b', b)
-        if (a === -1 && b === -1) {
+        const lastOrderNumber = await findLastOrderNumber()
+        console.log('findLastNumber b', lastOrderNumber)
+        if (lastOrderNumber === -1) {
             return 1
         } else {
-            if (a === b) {
-                return b + 1
+            if (lastOrderNumber) {
+                return lastOrderNumber + 1
             } else {
-                console.log('error a !== b', a[a.length - 1].number)
-                console.log('error a !== b', b[b.length - 1].number)
+                console.log(
+                    'error a !== b',
+                    lastOrderNumber[lastOrderNumber.length - 1].number,
+                )
                 return -1
             }
         }
