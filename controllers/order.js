@@ -1,8 +1,8 @@
 const db = require('../models')
 const errorHandler = require('../utils/errorHandler')
 
-module.exports.getAll = function (req, res) {
-    db.Order.findAll({
+module.exports.getAll = async function (req, res) {
+    await db.Order.findAll({
         //where: {ProductId: req.body.category},
         //include: [db.Category],
     })
@@ -16,31 +16,64 @@ module.exports.getAll = function (req, res) {
 }
 
 module.exports.create = async function (req, res) {
-    console.log(req.body)
+    console.log('create req.body', req.body)
     const candidate = await db.User.findOne({
         where: { email: req.body.user },
     })
-    const findLastOrderNumber = await db.Order.findAll({
-        where: { CashShiftId: req.body.CashShiftId },
-    })
-    const lastNumber = findLastOrderNumber[findLastOrderNumber.length - 1]
-    let idx = 1
-    if (lastNumber) {
-        idx = lastNumber.number + 1
+
+    async function createOrder(idx) {
+        console.log('function create Order enter params', idx)
+        if (idx !== -1) {
+            db.Order.create({
+                number: idx,
+                user: req.body.user,
+                CashShiftId: req.body.CashShiftId,
+                UserId: candidate.id,
+            })
+                .then((items) => {
+                    // console.log('then items after db.Order.create', items)
+                    res.json(items)
+                    res.status(201)
+                })
+                .catch((err) => {
+                    errorHandler(err, res)
+                })
+        } else res.status(500)
     }
-    db.Order.create({
-        number: idx,
-        user: req.body.user,
-        CashShiftId: req.body.CashShiftId,
-        UserId: candidate.id,
-    })
-        .then((items) => {
-            res.json(items)
-            res.status(201)
+
+    async function findLastOrderNumber() {
+        const order = await db.Order.findAll({
+            where: { CashShiftId: req.body.CashShiftId },
         })
-        .catch((err) => {
-            errorHandler(err, res)
-        })
+        // console.log('findAll orders', order)
+        if (order.length !== 0) {
+            console.log('enter !== []')
+            const sortedByNumber = order.sort((a, b) => a.number - b.number)
+            return sortedByNumber[sortedByNumber.length - 1].number
+        } else return -1
+    }
+
+    async function find() {
+        const a = await findLastOrderNumber()
+        const b = await findLastOrderNumber()
+        console.log('findLastNumber a', a)
+        console.log('findLastNumber b', b)
+        if (a === -1 && b === -1) {
+            return 1
+        } else {
+            if (a === b) {
+                return b + 1
+            } else {
+                console.log('error a !== b', a[a.length - 1].number)
+                console.log('error a !== b', b[b.length - 1].number)
+                return -1
+            }
+        }
+        // console.log('findLastNumber', lastNumber)
+    }
+    await find()
+        .then((idx) => createOrder(idx))
+        .catch((e) => console.log('function find not working', e))
 }
 
 module.exports.remove = function (req, res) {
@@ -57,9 +90,9 @@ module.exports.remove = function (req, res) {
         })
 }
 
-module.exports.update = function (req, res) {
-    console.log(req.body)
-    db.Order.update(
+module.exports.update = async function (req, res) {
+    console.log('update req.body', req.body)
+    await db.Order.update(
         {
             user: req.body.user,
             positions: req.body.positions,
