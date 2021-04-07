@@ -1,7 +1,7 @@
 const db = require('../models')
 const errorHandler = require('../utils/errorHandler')
 
-module.exports.getAll = async function (req, res) {
+module.exports.getAll = async (req, res) => {
     await db.Order.findAll({
         //where: {ProductId: req.body.category},
         //include: [db.Category],
@@ -15,7 +15,7 @@ module.exports.getAll = async function (req, res) {
         })
 }
 
-module.exports.create = async function (req, res) {
+module.exports.create = async (req, res) => {
     console.log('create req.body', req.body)
     const candidate = await db.User.findOne({
         where: { email: req.body.user },
@@ -76,7 +76,7 @@ module.exports.create = async function (req, res) {
         .catch((e) => console.log('function find not working', e))
 }
 
-module.exports.remove = function (req, res) {
+module.exports.remove = (req, res) => {
     const id = req.params.id
     db.Product.destroy({
         where: { id: id },
@@ -90,7 +90,7 @@ module.exports.remove = function (req, res) {
         })
 }
 
-module.exports.update = async function (req, res) {
+module.exports.update = async (req, res) => {
     console.log('update req.body', req.body)
     await db.Order.update(
         {

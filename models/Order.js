@@ -50,9 +50,6 @@ module.exports = (sequelize, DataTypes) => {
         Order.hasMany(models.Guest, {
             onDelete: 'cascade',
         })
-        Order.hasMany(models.Product, {
-            onDelete: 'cascade',
-        })
         Order.belongsTo(models.User, {
             onDelete: 'cascade',
         })

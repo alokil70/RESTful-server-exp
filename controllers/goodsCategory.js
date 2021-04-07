@@ -2,12 +2,12 @@ const db = require('../models')
 const errorHandler = require('../utils/errorHandler')
 
 module.exports.getAll = (req, res) => {
-    db.Category.findAll({
+    db.GoodsCategory.findAll({
         //where: {ProductId: req.body.category},
         //include: [db.Category]
     })
-        .then((category) => {
-            res.json(category)
+        .then((item) => {
+            res.json(item)
             res.status(200)
         })
         .catch((err) => {
@@ -19,7 +19,7 @@ module.exports.getById = (req, res) => {}
 
 module.exports.remove = (req, res) => {
     const id = req.params.id
-    db.Category.destroy({
+    db.GoodsCategory.destroy({
         where: { id: id },
     })
         .then((item) => {
@@ -33,13 +33,13 @@ module.exports.remove = (req, res) => {
 
 module.exports.create = (req, res) => {
     console.log(req.body)
-    db.Category.create({
+    db.GoodsCategory.create({
         title: req.body.title,
         description: req.body.description,
         image: req.file ? req.file.path : '',
     })
-        .then((products) => {
-            res.json(products)
+        .then((item) => {
+            res.json(item)
             res.status(201)
         })
         .catch((err) => {

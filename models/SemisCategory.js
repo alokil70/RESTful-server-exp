@@ -1,7 +1,7 @@
 'use strict'
 module.exports = (sequelize, DataTypes) => {
-    const Category = sequelize.define(
-        'Category',
+    const SemisCategory = sequelize.define(
+        'SemisCategory',
         {
             title: {
                 type: DataTypes.STRING,
@@ -16,10 +16,10 @@ module.exports = (sequelize, DataTypes) => {
         },
         {},
     )
-    Category.associate = function (models) {
-        Category.hasMany(models.Product, {
+    SemisCategory.associate = function (models) {
+        SemisCategory.hasMany(models.Semis, {
             onDelete: 'cascade',
         })
     }
-    return Category
+    return SemisCategory
 }

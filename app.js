@@ -2,6 +2,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const passport = require('passport')
 const db = require('./models')
+const routes = require('./routes')
 const path = require('path')
 const fs = require('fs')
 
@@ -11,7 +12,7 @@ require('dotenv').config()
 const PORT = process.env.SERVER_PORT || 9009
 
 const app = express()
-
+console.log('routessssssssssssss', routes.router)
 app.use(passport.initialize())
 require('./middleware/passport')(passport)
 
@@ -25,21 +26,46 @@ if (path.dirname('uploads')) {
     fs.mkdir(path.join(__dirname, 'uploads'), (err) => {})
 }
 
-const authRoutes = require('./routes/auth')
-const userRoutes = require('./routes/user')
-const analyticsRoutes = require('./routes/analytics')
-const categoryRoutes = require('./routes/category')
-const orderRoutes = require('./routes/order')
-const cashShiftRoutes = require('./routes/cashShift')
-const productsRoutes = require('./routes/products')
+/*fs.readdirSync(__dirname + '/routes')
+    .filter((file) => {
+        return (
+            file.indexOf('.') !== 0 &&
+            file !== basename &&
+            file.slice(-9) === 'routes.js'
+        )
+    })
+    .forEach((file) => {
+        let route = file.split('.')[0]
+        let api = '/api/' + route
+        let filePath = './routes/' + route + '.routes'
+        console.log(filePath)
+        let temp = require(filePath.toString())
+        console.log('cdcdcdcdcdcdcdcdcdc', temp)
+        // app.use(api.toString, temp)
+    })*/
 
-app.use('/api/auth', authRoutes)
-app.use('/api/users', userRoutes)
-app.use('/api/analytics', analyticsRoutes)
-app.use('/api/category', categoryRoutes)
-app.use('/api/order', orderRoutes)
-app.use('/api/cashShift', cashShiftRoutes)
-app.use('/api/products', productsRoutes)
+app.use('/api/auth', require('./routes/auth.routes'))
+app.use('/api/users', require('./routes/user.routes'))
+app.use('/api/analytics', require('./routes/analytics'))
+app.use('/api/category', require('./routes/category.routes'))
+app.use('/api/goodsCategory', require('./routes/goodsCategory.routes'))
+app.use('/api/semisCategory', require('./routes/semisCategory.routes'))
+app.use('/api/order', require('./routes/order.routes'))
+app.use('/api/cashShift', require('./routes/cashShift.routes'))
+app.use('/api/products', require('./routes/products.routes'))
+app.use('/api/goodsItem', require('./routes/goodsItem.routes'))
+app.use('/api/semis', require('./routes/semis.routes'))
+
+/*const authRoutes = require('./routes/auth.routes')
+console.log('routessssssssssss', authRoutes)
+const userRoutes = require('./routes/user.routes')
+const analyticsRoutes = require('./routes/analytics')
+const categoryRoutes = require('./routes/category.routes')
+const goodsCategoryRoutes = require('./routes/goodsCategory.routes')
+const orderRoutes = require('./routes/order.routes')
+const cashShiftRoutes = require('./routes/cashShift.routes')
+const productsRoutes = require('./routes/products.routes')
+const goodsItemRoutes = require('./routes/goodsItem.routes')*/
 
 let token = null
 let user = {}

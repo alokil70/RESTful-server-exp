@@ -2,12 +2,12 @@ const db = require('../models')
 const errorHandler = require('../utils/errorHandler')
 
 module.exports.getAll = async (req, res) => {
-    await db.Product.findAll({
+    await db.Semis.findAll({
         //where: {ProductId: req.body.category},
-        include: [db.Category],
+        include: [db.SemisCategory],
     })
-        .then((products) => {
-            res.json(products)
+        .then((item) => {
+            res.json(item)
             res.status(200)
         })
         .catch((err) => {
@@ -18,7 +18,7 @@ module.exports.getAll = async (req, res) => {
 module.exports.remove = async (req, res) => {
     // console.log(req.body)
     const id = req.params.id
-    await db.Product.destroy({
+    await db.Semis.destroy({
         where: { id: id },
     })
         .then((item) => {
@@ -32,15 +32,15 @@ module.exports.remove = async (req, res) => {
 
 module.exports.create = async (req, res) => {
     // console.log(req.body)
-    await db.Product.create({
+    await db.Semis.create({
         title: req.body.title,
         description: req.body.description,
         price: req.body.price,
-        CategoryId: req.body.categoryId,
+        GoodsCategoryId: req.body.goodsCategoryId,
         image: req.file ? req.file.filename : '',
     })
-        .then((products) => {
-            res.json(products)
+        .then((item) => {
+            res.json(item)
             res.status(201)
         })
         .catch((err) => {
@@ -51,12 +51,12 @@ module.exports.create = async (req, res) => {
 module.exports.update = async (req, res) => {
     const id = req.params.id
     // console.log(req.body)
-    await db.Product.update(
+    await db.Semis.update(
         {
             title: req.body.title,
             description: req.body.description,
             price: req.body.price,
-            CategoryId: req.body.categoryId,
+            GoodsCategoryId: req.body.goodsCategoryId,
             image: req.file ? req.file.filename : '',
         },
         {

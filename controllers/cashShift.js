@@ -1,7 +1,7 @@
 const db = require('../models')
 const errorHandler = require('../utils/errorHandler')
 
-module.exports.getAll = function (req, res) {
+module.exports.getAll = (req, res) => {
     db.CashShift.findAll({
         // where: {ProductId: req.body.category},
         // include: [db.Category],
@@ -15,7 +15,7 @@ module.exports.getAll = function (req, res) {
         })
 }
 
-module.exports.create = function (req, res) {
+module.exports.create = (req, res) => {
     async function createShift(num) {
         await db.CashShift.create({
             number: num,
@@ -48,7 +48,7 @@ module.exports.create = function (req, res) {
     getNumber()
 }
 
-module.exports.remove = function (req, res) {
+module.exports.remove = (req, res) => {
     const id = req.params.id
     db.CashShift.destroy({
         where: { id: id },
@@ -62,7 +62,7 @@ module.exports.remove = function (req, res) {
         })
 }
 
-module.exports.update = function (req, res) {
+module.exports.update = (req, res) => {
     const id = req.params.id
     db.CashShift.update(
         { isOpen: false, manager: req.body.manager, total: req.body.total },

@@ -4,7 +4,7 @@ const db = require('../models')
 const errorHandler = require('../utils/errorHandler')
 require('dotenv').config()
 
-module.exports.login = async function (req, res) {
+module.exports.login = async (req, res) => {
     const candidate = await db.User.findOne({
         where: { email: req.body.email },
     })
@@ -66,13 +66,13 @@ module.exports.login = async function (req, res) {
     }
 }*/
 
-module.exports.logout = function (req, res) {
+module.exports.logout = (req, res) => {
     res.status(200).json({
         message: 'logout',
     })
 }
 
-module.exports.findUser = async function (req, res) {
+module.exports.findUser = async (req, res) => {
     const token = req.headers.authorization.split(' ')[2]
     const decodeToken = jwt.decode(token)
 

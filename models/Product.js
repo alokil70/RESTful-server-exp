@@ -3,29 +3,29 @@ module.exports = (sequelize, DataTypes) => {
     const Product = sequelize.define(
         'Product',
         {
-            productName: {
+            title: {
                 type: DataTypes.STRING,
-                allowNull: false
+                allowNull: false,
             },
             description: {
-                type: DataTypes.STRING
+                type: DataTypes.STRING,
             },
-            imageName: {
-                type: DataTypes.STRING
+            image: {
+                type: DataTypes.STRING,
             },
             price: {
                 type: DataTypes.FLOAT,
-                allowNull: false
-            }
+                allowNull: false,
+            },
         },
-        {}
+        {},
     )
-    Product.associate = function(models) {
-/*        Product.hasMany(models.Position, {
+    Product.associate = function (models) {
+        /*        Product.hasMany(models.Position, {
             onDelete: 'cascade'
         })*/
         Product.belongsTo(models.Category, {
-            onDelete: 'cascade'
+            onDelete: 'cascade',
         })
     }
     return Product
