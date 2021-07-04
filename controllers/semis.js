@@ -36,7 +36,7 @@ module.exports.create = async (req, res) => {
         title: req.body.title,
         description: req.body.description,
         price: req.body.price,
-        GoodsCategoryId: req.body.goodsCategoryId,
+        SemisCategoryId: req.body.semisCategoryId,
         image: req.file ? req.file.filename : '',
     })
         .then((item) => {

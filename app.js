@@ -2,7 +2,6 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const passport = require('passport')
 const db = require('./models')
-const routes = require('./routes')
 const path = require('path')
 const fs = require('fs')
 
@@ -12,7 +11,6 @@ require('dotenv').config()
 const PORT = process.env.SERVER_PORT || 9009
 
 const app = express()
-console.log('routessssssssssssss', routes.router)
 app.use(passport.initialize())
 require('./middleware/passport')(passport)
 
@@ -41,7 +39,7 @@ if (path.dirname('uploads')) {
         console.log(filePath)
         let temp = require(filePath.toString())
         console.log('cdcdcdcdcdcdcdcdcdc', temp)
-        // app.use(api.toString, temp)
+        app.use(api.toString, temp)
     })*/
 
 app.use('/api/auth', require('./routes/auth.routes'))

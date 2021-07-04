@@ -82,11 +82,9 @@ module.exports.findUser = async (req, res) => {
 
     if (findUser != null) {
         res.status(200).json({
-            user: {
-                name: findUser.name,
-                email: findUser.email,
-                token: token,
-            },
+            name: findUser.name,
+            email: findUser.email,
+            token: token,
         })
     }
 }
