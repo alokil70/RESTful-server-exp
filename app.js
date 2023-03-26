@@ -8,7 +8,7 @@ const fs = require('fs')
 const serverAuth = require('./middleware/serv-auth')
 
 require('dotenv').config()
-const PORT = process.env.SERVER_PORT || 9009
+const PORT = process.env.SERVER_PORT || 9090
 
 const app = express()
 app.use(passport.initialize())

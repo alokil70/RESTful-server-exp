@@ -84,6 +84,7 @@ module.exports.findUser = async (req, res) => {
         res.status(200).json({
             name: findUser.name,
             email: findUser.email,
+            admin: findUser.admin,
             token: token,
         })
     }
